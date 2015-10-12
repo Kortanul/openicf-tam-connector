@@ -2,7 +2,7 @@
 <!--
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
- Copyright (c) 2010-2013 ForgeRock AS. All Rights Reserved
+ Copyright (c) 2010-2015 ForgeRock AS. All Rights Reserved
 
  The contents of this file are subject to the terms
  of the Common Development and Distribution License
@@ -27,7 +27,7 @@
     <parent>
         <groupId>org.forgerock.openicf.connectors</groupId>
         <artifactId>connectors-parent</artifactId>
-        <version>1.1.1.0</version>
+        <version>1.5.0.0-SNAPSHOT</version>
     </parent>
     <groupId>org.forgerock.openicf.connectors</groupId>
     <artifactId>tam-connector</artifactId>
@@ -42,19 +42,18 @@
     </issueManagement>
     <ciManagement>
         <system>jenkins</system>
-        <url>http://builds.forgerock.org/job/OpenICF - TAM Connector</url>
+        <url>https://ci.forgerock.org/view/OpenICF/job/OpenICF - tam-connector - postcommit/</url>
     </ciManagement>
     <scm>
-        <connection>scm:svn:https://svn.forgerock.org/openicf/trunk/connectors/java/tam</connection>
-        <developerConnection>scm:svn:https://svn.forgerock.org/openicf/trunk/connectors/java/tam</developerConnection>
-        <url>http://sources.forgerock.org/browse/openicf/trunk/connectors/java/tam</url>
+        <connection>scm:git:ssh://git@stash.forgerock.org:7999/openicf/tam-connector.git</connection>
+        <developerConnection>scm:git:ssh://git@stash.forgerock.org:7999/openicf/tam-connector.git</developerConnection>
+        <url>http://stash.forgerock.org/projects/OPENICF/repos/tam-connector/browse/</url>
     </scm>
     <properties>
         <connectorPackage>org.forgerock.openicf.connectors.tam</connectorPackage>
         <connectorClass>TAMConnector</connectorClass>
-        <jira.componentIds>10185</jira.componentIds>
-        <jira.versionPrefix>${project.artifactId}</jira.versionPrefix>
-        <jira.fixVersionIds>0</jira.fixVersionIds>
+        <framework.compatibilityVersion>1.1</framework.compatibilityVersion>
+        <framework.releaseVersion>2.0</framework.releaseVersion>
     </properties>
     <repositories>
         <repository>
@@ -75,6 +74,10 @@
         </repository>
     </repositories>
     <dependencies>
+        <dependency>
+            <groupId>org.forgerock.openicf.framework</groupId>
+            <artifactId>connector-framework</artifactId>
+        </dependency>
         <!--
         Extract the PD.jar from the Administration API Application Development Kit and install it.
         mvn install:install-file -Dfile=PD.jar -DgroupId=com.tivoli.am -DartifactId=admin-api -Dversion=6.1 -Dpackaging=jar -DgeneratePom=true  -DcreateChecksum=true
@@ -84,6 +87,28 @@
             <artifactId>admin-api</artifactId>
             <version>6.1</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- Test Dependencies -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.forgerock.openicf.framework</groupId>
+            <artifactId>connector-framework-internal</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.forgerock.openicf.framework</groupId>
+            <artifactId>connector-test-common</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
@@ -95,7 +120,7 @@
                     <excludedGroups>integration</excludedGroups>
                 </configuration>
             </plugin>
-            <plugin>
+			<plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
                 <extensions>true</extensions>
@@ -110,13 +135,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.tivoli.am</groupId>
-                        <artifactId>admin-api</artifactId>
-                        <version>6.1</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
